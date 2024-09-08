@@ -386,7 +386,7 @@ var ParticlePool = (function() {
     render();
   }, 10);
 })(document.getElementById('pinkboard'));
- window.addEventListener('mousemove', function() {
+ window.addEventListener('click', function() {
     var audio = document.getElementById('background-music');
     if (audio.paused) {
       audio.play().then(function() {
