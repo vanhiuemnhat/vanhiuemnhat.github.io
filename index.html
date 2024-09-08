@@ -336,12 +336,7 @@ var ParticlePool = (function() {
 })(document.getElementById('pinkboard'));
  window.addEventListener('load', function() {
     var audio = document.getElementById('background-music');
-    audio.play().then(function() {
-      // Tắt chế độ mute sau khi bắt đầu phát nhạc
-      audio.muted = false;
-    }).catch(function(error) {
-      console.log('Playback failed: ', error);
-    });
+    audio.muted = false; // Bật âm thanh sau khi nhạc đã bắt đầu
   });
   </script>
  </BODY>
