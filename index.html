@@ -94,6 +94,33 @@
     position: absolute;
     z-index: 1;
   }
+   .petal {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      background: url('dao.png') no-repeat center/contain;
+      opacity: 0.8;
+      pointer-events: all; /* Cho phép người dùng nhấp vào */
+      animation: fall linear infinite;
+    }
+    @keyframes fall {
+      0% {
+        transform: translateY(-100px) rotate(0deg);
+      }
+      100% {
+        transform: translateY(100vh) rotate(360deg);
+      }
+    }
+    @keyframes disappear {
+      0% {
+        opacity: 1;
+        transform: scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: scale(0);
+      }
+    }
   </style>
  </HEAD>
  
@@ -320,6 +347,29 @@ var ParticlePool = (function() {
     particles.update(deltaTime);
     particles.draw(context, image);
   }
+ function createPetal() {
+      const petal = document.createElement('div');
+      petal.classList.add('petal');
+      petal.style.left = Math.random() * 100 + 'vw';
+      petal.style.animationDuration = Math.random() * 3 + 5 + 's';
+      petal.style.animationName = 'fall';
+      
+      // Chỉ cánh hoa được bấm vào sẽ biến mất
+      petal.addEventListener('click', function(event) {
+        event.target.style.animation = 'disappear 1s forwards'; 
+        setTimeout(() => event.target.remove(), 1); // Sau khi hoàn thành animation, cánh hoa sẽ được xoá
+      });
+
+      document.body.appendChild(petal);
+
+      // Xoá cánh hoa sau khi rơi hết màn hình
+      setTimeout(() => {
+        petal.remove();
+      }, parseFloat(petal.style.animationDuration) * 1000); // Thời gian rơi kết thúc = animationDuration
+    }
+
+    // Tạo cánh hoa rơi liên tục
+    setInterval(createPetal, 500);
   
   // handle (re-)sizing of the canvas
   function onResize() {
