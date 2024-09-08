@@ -108,23 +108,24 @@
       z-index: 2; /* Đặt z-index cao hơn */
     }
     @keyframes fall {
-      0% {
-        transform: translateY(-100px) rotate(0deg);
-      }
-      100% {
-        transform: translateY(100vh) rotate(360deg);
-      }
-    }
-    @keyframes disappear {
-      0% {
-        opacity: 1;
-        transform: scale(1);
-      }
-      100% {
-        opacity: 0;
-        transform: scale(0);
-      }
-    }
+  0% {
+    transform: translateY(-100px) rotate(0deg);
+  }
+  100% {
+    transform: translateY(100vh) rotate(360deg);
+  }
+}
+
+@keyframes disappear {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0);
+  }
+}
   </style>
  </HEAD>
  
@@ -356,7 +357,6 @@ function createPetal() {
   petal.classList.add('petal');
   petal.style.left = Math.random() * 100 + 'vw';
   petal.style.animationDuration = Math.random() * 3 + 5 + 's';
-  petal.style.animationName = 'fall';
   
   // Chỉ cánh hoa được bấm vào sẽ biến mất
   petal.addEventListener('click', function(event) {
@@ -367,14 +367,17 @@ function createPetal() {
   document.body.appendChild(petal);
 
   // Xoá cánh hoa sau khi rơi hết màn hình
+  const duration = parseFloat(petal.style.animationDuration) * 1000;
   setTimeout(() => {
-    petal.remove();
-  }, parseFloat(petal.style.animationDuration) * 1000); // Thời gian rơi kết thúc = animationDuration
+    if (petal.parentElement) {
+      petal.remove();
+    }
+  }, duration); // Thời gian rơi kết thúc = animationDuration
 }
 
-    // Tạo cánh hoa rơi liên tục
-    setInterval(createPetal, 500);
-  
+// Tạo cánh hoa rơi liên tục
+setInterval(createPetal, 500);
+
   // handle (re-)sizing of the canvas
   function onResize() {
     canvas.width  = canvas.clientWidth;
