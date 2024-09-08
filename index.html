@@ -36,8 +36,6 @@
     position: absolute;
     width: 100%;
     height: 100%;
-    z-index: 0; /* Đặt z-index thấp hơn */
-    will-change: transform;
   }
 
   #pinkboard {
@@ -46,6 +44,7 @@
     height: 500px;
     width: 500px;
     animation: animate 1.3s infinite;
+    z-index: 1; /* Đặt nền dưới cánh hoa */
   }
 
   #pinkboard:before, #pinkboard:after {
@@ -106,8 +105,7 @@
       opacity: 0.8;
       pointer-events: all; /* Cho phép người dùng nhấp vào */
       animation: fall linear infinite;
-      z-index: 1; /* Đặt z-index cao hơn */
-      will-change: transform, opacity;
+      z-index: 2; /* Đặt z-index cao hơn */
     }
     @keyframes fall {
       0% {
@@ -353,26 +351,26 @@ var ParticlePool = (function() {
     particles.update(deltaTime);
     particles.draw(context, image);
   }
- function createPetal() {
-      const petal = document.createElement('div');
-      petal.classList.add('petal');
-      petal.style.left = Math.random() * 100 + 'vw';
-      petal.style.animationDuration = Math.random() * 3 + 5 + 's';
-      petal.style.animationName = 'fall';
-      
-      // Chỉ cánh hoa được bấm vào sẽ biến mất
-      petal.addEventListener('click', function(event) {
-        event.target.style.animation = 'disappear 1s forwards'; 
-        setTimeout(() => event.target.remove(), 1); // Sau khi hoàn thành animation, cánh hoa sẽ được xoá
-      });
+function createPetal() {
+  const petal = document.createElement('div');
+  petal.classList.add('petal');
+  petal.style.left = Math.random() * 100 + 'vw';
+  petal.style.animationDuration = Math.random() * 3 + 5 + 's';
+  petal.style.animationName = 'fall';
+  
+  // Chỉ cánh hoa được bấm vào sẽ biến mất
+  petal.addEventListener('click', function(event) {
+    event.target.style.animation = 'disappear 1s forwards'; 
+    setTimeout(() => event.target.remove(), 1000); // Sau khi hoàn thành animation, cánh hoa sẽ được xoá
+  });
 
-      document.body.appendChild(petal);
+  document.body.appendChild(petal);
 
-      // Xoá cánh hoa sau khi rơi hết màn hình
-      setTimeout(() => {
-        petal.remove();
-      }, parseFloat(petal.style.animationDuration) * 1000); // Thời gian rơi kết thúc = animationDuration
-    }
+  // Xoá cánh hoa sau khi rơi hết màn hình
+  setTimeout(() => {
+    petal.remove();
+  }, parseFloat(petal.style.animationDuration) * 1000); // Thời gian rơi kết thúc = animationDuration
+}
 
     // Tạo cánh hoa rơi liên tục
     setInterval(createPetal, 500);
